@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useScroll } from '@/hooks/useScroll';
@@ -28,6 +29,7 @@ const linkStyle = {
 export default function Navigation() {
   const { scrolled } = useScroll();
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -81,19 +83,25 @@ export default function Navigation() {
             }}
             className="nav-desktop"
           >
-            {links.map(({ href, label }) => (
+            {links.map(({ href, label }) => {
+              const isActive = pathname === href;
+              return (
               <Link
                 key={href}
                 href={href}
                 className="nav-link"
-                style={linkStyle}
+                style={{
+                  ...linkStyle,
+                  color: isActive ? 'var(--color-gold)' : 'var(--text-secondary)',
+                }}
                 onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-gold)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = isActive ? 'var(--color-gold)' : 'var(--text-secondary)'; }}
               >
                 {label}
-                <span className="nav-underline" />
+                <span className="nav-underline" style={{ width: isActive ? '100%' : undefined }} />
               </Link>
-            ))}
+              );
+            })}
           </nav>
 
           {/* RIGHT — Book Visit + Hamburger */}
@@ -161,7 +169,9 @@ export default function Navigation() {
                 alignItems: 'center', justifyContent: 'center', gap: 'var(--space-8)',
               }}
             >
-              {links.map(({ href, label }, i) => (
+              {links.map(({ href, label }, i) => {
+                const isActive = pathname === href;
+                return (
                 <motion.div
                   key={href}
                   initial={{ opacity: 0, y: 24 }}
@@ -175,17 +185,18 @@ export default function Navigation() {
                       fontFamily: 'var(--font-display)',
                       fontSize: 'var(--text-3xl)',
                       fontWeight: 'var(--weight-light)',
-                      color: 'var(--text-primary)',
+                      color: isActive ? 'var(--color-gold)' : 'var(--text-primary)',
                       textDecoration: 'none',
                       transition: 'color 0.2s',
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-gold)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = isActive ? 'var(--color-gold)' : 'var(--text-primary)'; }}
                   >
                     {label}
                   </Link>
                 </motion.div>
-              ))}
+                );
+              })}
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}

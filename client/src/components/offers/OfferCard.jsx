@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { MapPin, Zap, Users, Eye, ArrowRight } from 'lucide-react';
+import { MapPin, Zap, Users, ArrowRight } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 
 const BADGE_STYLES = {
@@ -12,6 +13,7 @@ const BADGE_STYLES = {
 
 export default function OfferCard({ offer, index, onClaim }) {
   const [hovered, setHovered] = useState(false);
+  const router = useRouter();
 
   return (
     <motion.div
@@ -25,6 +27,7 @@ export default function OfferCard({ offer, index, onClaim }) {
         boxShadow: 'var(--shadow-card)',
         display: 'flex',
         flexDirection: 'column',
+        cursor: 'pointer',
       }}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -36,6 +39,7 @@ export default function OfferCard({ offer, index, onClaim }) {
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => onClaim(offer)}
     >
       {/* ── Image ── */}
       <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: '#0a0a0a', flexShrink: 0 }}>
@@ -43,47 +47,15 @@ export default function OfferCard({ offer, index, onClaim }) {
           style={{
             width: '100%',
             height: '100%',
-            backgroundImage: offer.img ? `url(${offer.img})` : undefined,
-            background: offer.img ? undefined : 'linear-gradient(135deg,#1a1208,#2a1f0a)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
           }}
           animate={{ scale: hovered ? 1.1 : 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        />
-
-        {/* Hover overlay */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            position: 'absolute', inset: 0,
-            background: 'rgba(0,0,0,0.5)',
-            backdropFilter: 'blur(2px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
         >
-          <motion.button
-            onClick={() => onClaim(offer)}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: hovered ? 0 : 20, opacity: hovered ? 1 : 0 }}
-            transition={{ delay: 0.08, duration: 0.3 }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
-              padding: 'var(--space-3) var(--space-6)',
-              background: 'rgba(201,168,76,0.95)',
-              color: 'var(--color-black)',
-              borderRadius: 'var(--radius-full)',
-              fontSize: 'var(--text-sm)',
-              fontWeight: 'var(--weight-medium)',
-              letterSpacing: 'var(--tracking-wide)',
-              textTransform: 'uppercase',
-              border: 'none', cursor: 'pointer',
-            }}
-          >
-            <Eye size={14} /> Claim Deal
-          </motion.button>
+          <img
+            src={offer.img}
+            alt={offer.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+          />
         </motion.div>
 
         {/* Badge top-left */}

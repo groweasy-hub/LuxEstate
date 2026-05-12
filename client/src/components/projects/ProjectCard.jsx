@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -10,16 +11,19 @@ import {
   MapPin,
   Maximize,
   Star,
-  Eye,
 } from "lucide-react";
 
 const formatBeds = (beds) =>
-  Array.isArray(beds) ? `${beds[0]}-${beds[beds.length - 1]} BHK` : `${beds} BHK`;
+  Array.isArray(beds)
+    ? `${beds[0]}-${beds[beds.length - 1]} BHK`
+    : `${beds} BHK`;
 
 export default function ProjectCard({ project, index }) {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef(null);
-  const cardImage = project.img || project.images?.[0] || "/images/project-1.jpg";
+  const router = useRouter();
+  const cardImage =
+    project.img || project.images?.[0] || "/images/project-1.jpg";
   const detailItems = [
     { Icon: Bed, value: formatBeds(project.beds) },
     { Icon: Maximize, value: project.area },
@@ -30,6 +34,7 @@ export default function ProjectCard({ project, index }) {
     <motion.div
       ref={cardRef}
       className="group"
+      onClick={() => router.push(`/projects/${project.id}`)}
       style={{
         position: "relative",
         borderRadius: "var(--radius-xl)",
@@ -37,6 +42,7 @@ export default function ProjectCard({ project, index }) {
         background: "var(--surface-card)",
         border: "1px solid var(--border-subtle)",
         boxShadow: "var(--shadow-card)",
+        cursor: "pointer",
       }}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -48,7 +54,8 @@ export default function ProjectCard({ project, index }) {
       }}
       whileHover={{
         y: -8,
-        boxShadow: "0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.3)",
+        boxShadow:
+          "0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.3)",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -77,44 +84,6 @@ export default function ProjectCard({ project, index }) {
               display: "block",
             }}
           />
-        </motion.div>
-
-        {/* Overlay on hover */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "rgba(0,0,0,0.5)",
-            backdropFilter: "blur(2px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
-            transition={{ delay: 0.1, duration: 0.3 }}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--space-2)",
-              padding: "var(--space-3) var(--space-6)",
-              background: "rgba(201,168,76,0.95)",
-              color: "var(--color-black)",
-              borderRadius: "var(--radius-full)",
-              fontSize: "var(--text-sm)",
-              fontWeight: "var(--weight-medium)",
-              letterSpacing: "var(--tracking-wide)",
-              textTransform: "uppercase",
-            }}
-          >
-            <Eye size={14} />
-            View Details
-          </motion.div>
         </motion.div>
 
         {/* Badges */}
@@ -176,7 +145,7 @@ export default function ProjectCard({ project, index }) {
         </motion.h4>
 
         <motion.div
-          className="flex items-center gap-2 mb-4"
+          style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", marginBottom: "var(--space-5)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: index * 0.1 + 0.5, duration: 0.5 }}
@@ -184,9 +153,9 @@ export default function ProjectCard({ project, index }) {
           <MapPin
             size={14}
             color="var(--color-gold)"
-            style={{ flexShrink: 0 }}
+            style={{ flexShrink: 0, display: "block" }}
           />
-          <span className="small" style={{ color: "var(--text-secondary)" }}>
+          <span className="small" style={{ color: "var(--text-secondary)", lineHeight: 1 }}>
             {project.location}, {project.city}
           </span>
         </motion.div>
@@ -213,7 +182,7 @@ export default function ProjectCard({ project, index }) {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.4rem",
-                padding: "0.5rem 0.85rem",
+                padding: "0.2rem 0.5rem",
                 borderRadius: "999px",
                 background: "rgba(201,168,76,0.08)",
                 border: "1px solid var(--border-subtle)",
@@ -224,7 +193,7 @@ export default function ProjectCard({ project, index }) {
                 borderColor: "var(--border-gold)",
               }}
             >
-              <Icon size={13} color="var(--text-muted)" />
+              <Icon size={10} color="var(--text-muted)" />
               <span className="small" style={{ color: "var(--text-primary)" }}>
                 {value}
               </span>
@@ -261,12 +230,15 @@ export default function ProjectCard({ project, index }) {
             href={`/projects/${project.id}`}
             className="btn btn-sm"
             style={{
-              color: "var(--color-gold)",
+              color: isHovered ? "var(--color-black)" : "var(--color-gold)",
               border: "1px solid var(--border-gold-strong)",
-              background: "rgba(201,168,76,0.08)",
+              background: isHovered
+                ? "var(--color-gold)"
+                : "rgba(201,168,76,0.08)",
               display: "flex",
               alignItems: "center",
               gap: "var(--space-2)",
+              transition: "background 0.3s ease, color 0.3s ease",
             }}
           >
             Details

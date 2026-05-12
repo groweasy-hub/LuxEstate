@@ -30,15 +30,14 @@ export default function FeaturedOffer({ offer, onClaim }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 420 }}>
         {/* Image side */}
         <div className="hover-zoom relative overflow-hidden" style={{ borderRadius: 'var(--radius-2xl) 0 0 var(--radius-2xl)' }}>
-          <div
+          <img
+            src={offer.img}
+            alt={offer.title}
             style={{
               width: '100%', height: '100%', minHeight: 420,
-              backgroundImage: `url(${offer.img})`,
-              backgroundSize: 'cover', backgroundPosition: 'center',
-              background: offer.img ? undefined : 'linear-gradient(135deg,#1a1208,#2a1f0a)',
-              transition: 'transform var(--duration-slower) var(--ease-out-expo)',
+              objectFit: 'cover', objectPosition: 'center',
+              display: 'block',
             }}
-            className="group-hover:scale-[1.06]"
           />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, transparent 60%, var(--surface-card) 100%)' }} />
           <span className="badge badge-gold animate-gold-glow absolute top-4 left-4" style={{ fontSize: 'var(--text-sm)' }}>
