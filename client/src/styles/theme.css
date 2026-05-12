@@ -1,0 +1,275 @@
+/* ============================================================
+   THEME.CSS — Core Design Token System
+   Real Estate Channel Partner Platform
+   Deep dark / high-contrast luxury design
+   ============================================================ */
+
+:root {
+  /* ── BRAND COLORS ─────────────────────────────────────────── */
+
+  --color-gold: #c9a84c;
+  --color-gold-light: #e8c96a;
+  --color-gold-dark: #9a7a2e;
+  --color-gold-muted: #c9a84c26;
+  --color-gold-glow: #c9a84c40;
+
+  --color-black: #080808;
+  --color-black-rich: #0a0a0a;
+  --color-black-soft: #111111;
+  --color-black-card: #141414;
+  --color-black-elevated: #1a1a1a;
+  --color-black-border: #242424;
+
+  --color-white: #ffffff;
+  --color-white-90: #f5f3ee;
+  --color-white-70: #c8c4bc;
+  --color-white-40: #807c75;
+  --color-white-20: #3a3835;
+  --color-white-10: #1e1d1b;
+
+  --color-accent-warm: #e8623a;
+  --color-accent-cool: #3a7bd5;
+  --color-accent-success: #2ecc71;
+  --color-accent-danger: #e84040;
+  --color-accent-info: #4aa8ff;
+
+  /* ── SEMANTIC SURFACE COLORS ──────────────────────────────── */
+
+  --surface-page: var(--color-black);
+  --surface-base: var(--color-black-rich);
+  --surface-card: var(--color-black-card);
+  --surface-elevated: var(--color-black-elevated);
+  --surface-overlay: rgba(8, 8, 8, 0.85);
+  --surface-modal: #161616;
+  --surface-input: #181818;
+  --surface-hover: rgba(201, 168, 76, 0.06);
+  --surface-active: rgba(201, 168, 76, 0.12);
+
+  /* ── BORDER COLORS ────────────────────────────────────────── */
+
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --border-gold: rgba(201, 168, 76, 0.35);
+  --border-gold-strong: rgba(201, 168, 76, 0.65);
+  --border-focus: rgba(201, 168, 76, 0.8);
+
+  /* ── TEXT COLORS ──────────────────────────────────────────── */
+
+  --text-primary: #f0ede8;
+  --text-secondary: #9a9590;
+  --text-muted: #5c5955;
+  --text-disabled: #3a3835;
+  --text-gold: var(--color-gold);
+  --text-gold-light: var(--color-gold-light);
+  --text-inverse: #080808;
+  --text-link: var(--color-gold-light);
+  --text-link-hover: var(--color-white-90);
+  --text-success: #2ecc71;
+  --text-danger: #e84040;
+  --text-info: #4aa8ff;
+
+  /* ── TYPOGRAPHY ───────────────────────────────────────────── */
+
+  --font-display: "Cormorant Garamond", "Garamond", "Georgia", serif;
+  --font-heading: "DM Serif Display", "Georgia", serif;
+  --font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --font-ui: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-label: "Jost", sans-serif;
+
+  --text-xs: 0.6875rem; /* 11px */
+  --text-sm: 0.8125rem; /* 13px */
+  --text-base: 1rem; /* 16px */
+  --text-md: 1.125rem; /* 18px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-2xl: 1.875rem; /* 30px */
+  --text-3xl: 2.25rem; /* 36px */
+  --text-4xl: 3rem; /* 48px */
+  --text-5xl: 3.75rem; /* 60px */
+  --text-6xl: 4.5rem; /* 72px */
+  --text-7xl: 6rem; /* 96px */
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tightest: -0.04em;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.12em;
+  --tracking-widest: 0.2em;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ── SPACING ──────────────────────────────────────────────── */
+
+  --space-1: 0.25rem; /* 4px  */
+  --space-2: 0.5rem; /* 8px  */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-14: 3.5rem; /* 56px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+  --space-32: 8rem; /* 128px */
+  --space-40: 10rem; /* 160px */
+
+  /* ── BORDER RADIUS ────────────────────────────────────────── */
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-full: 9999px;
+
+  /* ── SHADOWS ──────────────────────────────────────────────── */
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.7);
+  --shadow-2xl: 0 32px 96px rgba(0, 0, 0, 0.8);
+
+  --shadow-gold-sm: 0 0 12px rgba(201, 168, 76, 0.2);
+  --shadow-gold-md: 0 0 24px rgba(201, 168, 76, 0.25);
+  --shadow-gold-lg: 0 0 48px rgba(201, 168, 76, 0.2);
+  --shadow-gold-glow:
+    0 0 80px rgba(201, 168, 76, 0.15), 0 0 24px rgba(201, 168, 76, 0.25);
+
+  --shadow-card:
+    0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-card-hover:
+    0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(201, 168, 76, 0.2);
+
+  --shadow-modal:
+    0 24px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-nav:
+    0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 24px rgba(0, 0, 0, 0.4);
+
+  /* ── Z-INDEX SCALE ────────────────────────────────────────── */
+
+  --z-below: -1;
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-cursor: 900;
+
+  /* ── TRANSITIONS ──────────────────────────────────────────── */
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+  --duration-slowest: 900ms;
+
+  --transition-fast: var(--duration-fast) var(--ease-out-quart);
+  --transition-normal: var(--duration-normal) var(--ease-out-quart);
+  --transition-slow: var(--duration-slow) var(--ease-out-expo);
+  --transition-spring: var(--duration-slow) var(--ease-spring);
+
+  /* ── LAYOUT ───────────────────────────────────────────────── */
+
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1440px;
+  --container-max: 1600px;
+
+  --nav-height: 72px;
+  --section-py: var(--space-24);
+  --card-padding: var(--space-6);
+
+  --grid-cols-2: repeat(2, 1fr);
+  --grid-cols-3: repeat(3, 1fr);
+  --grid-cols-4: repeat(4, 1fr);
+  --grid-gap: var(--space-6);
+
+  /* ── GRADIENTS ────────────────────────────────────────────── */
+
+  --gradient-gold: linear-gradient(
+    135deg,
+    #c9a84c 0%,
+    #e8c96a 50%,
+    #c9a84c 100%
+  );
+  --gradient-gold-v: linear-gradient(180deg, #e8c96a 0%, #c9a84c 100%);
+  --gradient-dark: linear-gradient(180deg, #141414 0%, #080808 100%);
+  --gradient-hero: linear-gradient(
+    180deg,
+    rgba(8, 8, 8, 0) 0%,
+    rgba(8, 8, 8, 0.6) 60%,
+    rgba(8, 8, 8, 1) 100%
+  );
+  --gradient-card: linear-gradient(
+    180deg,
+    rgba(20, 20, 20, 0) 40%,
+    rgba(10, 10, 10, 0.95) 100%
+  );
+  --gradient-shine: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 60%
+  );
+
+  --gradient-text-gold: linear-gradient(135deg, #c9a84c, #e8c96a, #9a7a2e);
+  --gradient-text-white: linear-gradient(135deg, #f0ede8, #ffffff, #c8c4bc);
+
+  /* ── EFFECTS ──────────────────────────────────────────────── */
+
+  --blur-sm: blur(4px);
+  --blur-md: blur(8px);
+  --blur-lg: blur(16px);
+  --blur-xl: blur(24px);
+  --blur-backdrop: blur(20px) saturate(180%);
+
+  --noise-opacity: 0.035;
+  --grain-url: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── DARK MODE OVERRIDE (already dark by default, kept for system pref) ── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --surface-page: #f5f3ee;
+    --surface-base: #eeebe5;
+    --surface-card: #ffffff;
+    --surface-elevated: #f8f6f1;
+    --text-primary: #1a1916;
+    --text-secondary: #5c5750;
+    --text-muted: #9a9590;
+    --border-subtle: rgba(0, 0, 0, 0.06);
+    --border-default: rgba(0, 0, 0, 0.1);
+    --border-strong: rgba(0, 0, 0, 0.18);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
+    --shadow-card-hover:
+      0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(201, 168, 76, 0.3);
+  }
+}
