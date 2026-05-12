@@ -3,8 +3,8 @@ services:
     name: luxestate-server
     runtime: node
     rootDir: server
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: npm install --omit=dev
+    startCommand: node index.js
     envVars:
       - key: NODE_ENV
         value: production
