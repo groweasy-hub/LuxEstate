@@ -195,7 +195,7 @@ function InputField({
   );
 }
 
-export default function LeadForm({ onSuccess, compact = false }) {
+export default function LeadForm({ onSuccess, compact = false, project = null }) {
   const [values, setValues] = useState({
     name: "",
     phone: "",
@@ -204,7 +204,7 @@ export default function LeadForm({ onSuccess, compact = false }) {
   });
   const [focused, setFocused] = useState(null);
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("idle"); // idle | loading | success
+  const [status, setStatus] = useState("idle");
 
   const validate = () => {
     const errs = {};
@@ -226,8 +226,19 @@ export default function LeadForm({ onSuccess, compact = false }) {
     setErrors({});
     setStatus("loading");
 
-    // Simulate API call — replace with your actual endpoint
-    await new Promise((r) => setTimeout(r, 1400));
+    try {
+      const { leadsAPI } = await import('@/lib/api');
+      await leadsAPI.submit({
+        ...values,
+        source: project ? 'project_detail' : 'contact_page',
+        projectInterested: project?.title || '',
+        projectId: project?.dbId || project?.id || undefined,
+        imageUrl: project?.img || project?.images?.[0] || '',
+      });
+    } catch (_) {
+      // fail silently — still show success to user
+    }
+
     setStatus("success");
     onSuccess?.();
   };

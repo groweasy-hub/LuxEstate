@@ -1,6 +1,7 @@
 const Lead = require('../models/Lead');
 const Project = require('../models/Project');
 const Offer = require('../models/Offer');
+const { sendLeadEmails } = require('../utils/emailService');
 
 // GET /api/leads  (admin)
 exports.getAll = async (req, res, next) => {
@@ -56,25 +57,40 @@ exports.getOne = async (req, res, next) => {
 exports.create = async (req, res, next) => {
   try {
     const payload = { ...req.body };
+    // imageUrl and offerDiscount are email-only fields, not stored in DB
+    let projectImage   = payload.imageUrl    || '';
+    const offerDiscount = payload.offerDiscount || '';
+    let offerImage     = '';
+    delete payload.imageUrl;
+    delete payload.offerDiscount;
 
     if (payload.projectId) {
-      const project = await Project.findById(payload.projectId).select('title');
-      if (!project) return res.status(400).json({ success: false, message: 'Invalid project selected' });
-      payload.projectInterested = payload.projectInterested || project.title;
+      const project = await Project.findById(payload.projectId).select('title thumbnail galleryImages').catch(() => null);
+      if (project) {
+        payload.projectInterested = payload.projectInterested || project.title;
+        if (!projectImage) projectImage = project.thumbnail || project.galleryImages?.[0] || '';
+      }
     }
 
     if (payload.offerId) {
-      const offer = await Offer.findById(payload.offerId).select('title projectId');
-      if (!offer) return res.status(400).json({ success: false, message: 'Invalid offer selected' });
-      payload.offerTitle = payload.offerTitle || offer.title;
-      if (!payload.projectId && offer.projectId) {
-        payload.projectId = offer.projectId;
-        const project = await Project.findById(offer.projectId).select('title');
-        if (project) payload.projectInterested = payload.projectInterested || project.title;
+      const offer = await Offer.findById(payload.offerId).select('title projectId bannerImage').catch(() => null);
+      if (offer) {
+        payload.offerTitle = payload.offerTitle || offer.title;
+        offerImage = offer.bannerImage || '';
+        if (!payload.projectId && offer.projectId) {
+          payload.projectId = offer.projectId;
+          const project = await Project.findById(offer.projectId).select('title thumbnail galleryImages').catch(() => null);
+          if (project) {
+            payload.projectInterested = payload.projectInterested || project.title;
+            if (!projectImage) projectImage = project.thumbnail || project.galleryImages?.[0] || '';
+          }
+        }
       }
     }
 
     const lead = await Lead.create(payload);
+    console.log('Lead created, imageUrl:', projectImage || offerImage || 'none');
+    sendLeadEmails(lead, { projectImage, offerImage, offerDiscount }).catch(() => {});
     res.status(201).json({ success: true, lead });
   } catch (err) { next(err); }
 };

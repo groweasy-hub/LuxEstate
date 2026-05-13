@@ -1,256 +1,207 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Bed,
-  Building2,
-  MapPin,
-  Maximize,
-  Star,
-} from "lucide-react";
+import { ArrowRight, Bed, Building2, MapPin, Maximize } from "lucide-react";
 
 const formatBeds = (beds) =>
-  Array.isArray(beds)
-    ? `${beds[0]}-${beds[beds.length - 1]} BHK`
-    : `${beds} BHK`;
+  Array.isArray(beds) ? `${beds[0]}-${beds[beds.length - 1]} BHK` : `${beds} BHK`;
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 48 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export default function ProjectCard({ project, index }) {
-  const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef(null);
-  const router = useRouter();
-  const cardImage =
-    project.img || project.images?.[0] || "/images/project-1.jpg";
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+
+  const cardImage = project.img || project.images?.[0] || "/images/project-1.jpg";
+  const imageCount = project.images?.length || (project.img ? 1 : 0);
   const detailItems = [
     { Icon: Bed, value: formatBeds(project.beds) },
     { Icon: Maximize, value: project.area },
     { Icon: Building2, value: project.builder },
   ].filter((item) => item.value);
 
+  const onMouseMove = (e) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -8;
+    setTilt({ x, y });
+  };
+
+  const onMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+    setHovered(false);
+  };
+
   return (
     <motion.div
-      ref={cardRef}
-      className="group"
-      onClick={() => router.push(`/projects/${project.id}`)}
-      style={{
-        position: "relative",
-        borderRadius: "var(--radius-xl)",
-        overflow: "hidden",
-        background: "var(--surface-card)",
-        border: "1px solid var(--border-subtle)",
-        boxShadow: "var(--shadow-card)",
-        cursor: "pointer",
-      }}
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.7,
-        delay: index * 0.1,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-      whileHover={{
-        y: -8,
-        boxShadow:
-          "0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.3)",
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ delay: (index % 6) * 0.1 }}
     >
-      {/* Image Section */}
-      <div
-        className="relative"
-        style={{ height: 280, overflow: "hidden", background: "#0a0a0a" }}
-      >
+      <Link href={`/projects/${project.id}`} style={{ textDecoration: "none", display: "block" }}>
         <motion.div
+          ref={cardRef}
+          className="card"
           style={{
-            width: "100%",
-            height: "100%",
-            background: "linear-gradient(135deg, #1a1208 0%, #2a1f0a 100%)",
+            padding: 0,
+            cursor: "pointer",
+            perspective: 900,
+            transformStyle: "preserve-3d",
+            borderRadius: "var(--radius-xl)",
+            overflow: "hidden",
+            willChange: "transform",
           }}
-          animate={{ scale: isHovered ? 1.1 : 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <img
-            src={cardImage}
-            alt={project.title}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        </motion.div>
-
-        {/* Badges */}
-        {project.badge && (
-          <motion.span
-            className={`badge absolute top-4 left-4 ${
-              project.badge === "Featured"
-                ? "badge-gold animate-gold-glow"
-                : "badge-green"
-            }`}
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
-          >
-            {project.badge === "Featured" && (
-              <Star size={9} fill="currentColor" />
-            )}
-            {project.badge}
-          </motion.span>
-        )}
-
-        <motion.span
-          className="absolute top-4 right-4 badge"
-          style={{
-            background:
-              project.status === "ready"
-                ? "rgba(46,204,113,0.15)"
-                : "rgba(74,168,255,0.15)",
-            color: project.status === "ready" ? "#4ade80" : "#4aa8ff",
-            border: `1px solid ${
-              project.status === "ready"
-                ? "rgba(46,204,113,0.3)"
-                : "rgba(74,168,255,0.3)"
-            }`,
+          animate={{
+            rotateY: tilt.x,
+            rotateX: tilt.y,
+            boxShadow: hovered
+              ? "0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(201,168,76,0.25)"
+              : "0 4px 24px rgba(0,0,0,0.3)",
           }}
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: index * 0.1 + 0.3, duration: 0.5 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          onMouseMove={onMouseMove}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={onMouseLeave}
         >
-          {project.status === "ready" ? "Ready" : "Under Construction"}
-        </motion.span>
-      </div>
-
-      {/* Content Section */}
-      <div style={{ padding: "var(--space-6)" }}>
-        <motion.h4
-          className="mb-2"
-          style={{
-            fontSize: "var(--text-xl)",
-            lineHeight: 1.3,
-            color: isHovered ? "var(--color-gold)" : "var(--text-primary)",
-            transition: "color 0.3s ease",
-          }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 + 0.4, duration: 0.5 }}
-        >
-          {project.title}
-        </motion.h4>
-
-        <motion.div
-          style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", marginBottom: "var(--space-5)" }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: index * 0.1 + 0.5, duration: 0.5 }}
-        >
-          <MapPin
-            size={14}
-            color="var(--color-gold)"
-            style={{ flexShrink: 0, display: "block" }}
-          />
-          <span className="small" style={{ color: "var(--text-secondary)", lineHeight: 1 }}>
-            {project.location}, {project.city}
-          </span>
-        </motion.div>
-
-        {/* Details Pills */}
-        <motion.div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "var(--space-2)",
-            flexWrap: "wrap",
-            marginBottom: "var(--space-5)",
-            paddingBottom: "var(--space-5)",
-            borderBottom: "1px solid var(--border-subtle)",
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: index * 0.1 + 0.6, duration: 0.5 }}
-        >
-          {detailItems.map(({ Icon, value }) => (
-            <motion.span
-              key={value}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.4rem",
-                padding: "0.2rem 0.5rem",
-                borderRadius: "999px",
-                background: "rgba(201,168,76,0.08)",
-                border: "1px solid var(--border-subtle)",
-                transition: "all 0.3s ease",
-              }}
-              whileHover={{
-                background: "rgba(201,168,76,0.15)",
-                borderColor: "var(--border-gold)",
-              }}
-            >
-              <Icon size={10} color="var(--text-muted)" />
-              <span className="small" style={{ color: "var(--text-primary)" }}>
-                {value}
-              </span>
-            </motion.span>
-          ))}
-        </motion.div>
-
-        {/* Price & CTA */}
-        <motion.div
-          className="flex-between"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 + 0.7, duration: 0.5 }}
-        >
-          <div>
-            <p
-              className="overline"
-              style={{ marginBottom: "var(--space-1)", fontSize: "0.65rem" }}
-            >
-              Starting From
-            </p>
-            <span
-              className="text-gradient-gold"
-              style={{
-                fontFamily: "var(--font-heading)",
-                fontSize: "var(--text-2xl)",
-                fontWeight: "var(--weight-medium)",
-              }}
-            >
-              {project.priceLabel}
-            </span>
-          </div>
-          <Link
-            href={`/projects/${project.id}`}
-            className="btn btn-sm"
-            style={{
-              color: isHovered ? "var(--color-black)" : "var(--color-gold)",
-              border: "1px solid var(--border-gold-strong)",
-              background: isHovered
-                ? "var(--color-gold)"
-                : "rgba(201,168,76,0.08)",
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--space-2)",
-              transition: "background 0.3s ease, color 0.3s ease",
-            }}
-          >
-            Details
+          {/* Image */}
+          <div style={{ position: "relative", height: 230, overflow: "hidden", background: "#1a1208" }}>
             <motion.div
-              animate={{ x: isHovered ? 3 : 0 }}
-              transition={{ duration: 0.2 }}
+              style={{ width: "100%", height: "100%", background: "#1a1208" }}
+              animate={{ scale: hovered ? 1.08 : 1 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
             >
-              <ArrowRight size={12} />
+              <img
+                src={cardImage}
+                alt={project.title}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
             </motion.div>
-          </Link>
+
+            {project.badge && (
+              <span
+                className={`badge ${project.badge === "Featured" ? "badge-gold" : "badge-green"}`}
+                style={{ position: "absolute", top: 14, left: 14, zIndex: 2 }}
+              >
+                {project.badge}
+              </span>
+            )}
+
+            <span
+              className="badge"
+              style={{
+                position: "absolute", top: 14, right: 14, zIndex: 2,
+                background: project.status === "ready" ? "rgba(46,204,113,0.15)" : "rgba(74,168,255,0.15)",
+                color: project.status === "ready" ? "#4ade80" : "#4aa8ff",
+                border: `1px solid ${project.status === "ready" ? "rgba(46,204,113,0.3)" : "rgba(74,168,255,0.3)"}`,
+              }}
+            >
+              {project.status === "ready" ? "Ready" : "Under Construction"}
+            </span>
+
+            {imageCount > 1 && (
+              <span
+                style={{
+                  position: "absolute", bottom: 12, right: 12,
+                  background: "rgba(6,6,6,0.7)", backdropFilter: "blur(8px)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "var(--radius-sm)", padding: "2px 8px",
+                  fontSize: "var(--text-xs)", color: "var(--text-muted)",
+                  fontFamily: "var(--font-ui)", letterSpacing: "0.05em", zIndex: 2,
+                }}
+              >
+                1 / {imageCount}
+              </span>
+            )}
+          </div>
+
+          {/* Content */}
+          <div style={{ padding: "var(--space-5)", background: "var(--surface-card)" }}>
+            <h4
+              style={{
+                marginBottom: "var(--space-2)",
+                fontFamily: "var(--font-heading)",
+                fontSize: "var(--text-lg)",
+                fontWeight: "var(--weight-medium)",
+                color: hovered ? "var(--color-gold)" : "var(--text-primary)",
+                transition: "color 0.2s",
+              }}
+            >
+              {project.title}
+            </h4>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: "var(--space-4)" }}>
+              <MapPin size={12} color="var(--color-gold)" style={{ display: "block", flexShrink: 0 }} />
+              <span className="small" style={{ color: "var(--text-muted)" }}>
+                {project.location}, {project.city}
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: "flex", flexWrap: "wrap", gap: "var(--space-2)",
+                marginBottom: "var(--space-4)", paddingBottom: "var(--space-4)",
+                borderBottom: "1px solid var(--border-default)",
+              }}
+            >
+              {detailItems.map(({ Icon, value }) => (
+                <span
+                  key={value}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    padding: "0.42rem 0.7rem", borderRadius: "999px",
+                    background: "var(--surface-elevated)",
+                    border: "1px solid var(--border-subtle)",
+                  }}
+                >
+                  <Icon size={13} color="var(--text-muted)" style={{ display: "block", flexShrink: 0 }} />
+                  <span className="small" style={{ color: "var(--text-secondary)" }}>{value}</span>
+                </span>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span
+                className="text-gradient-gold"
+                style={{ fontFamily: "var(--font-heading)", fontSize: "var(--text-xl)", fontWeight: "var(--weight-medium)" }}
+              >
+                {project.priceLabel || project.price}
+              </span>
+              <span
+                style={{
+                  pointerEvents: "none", display: "flex", alignItems: "center", gap: 4,
+                  fontSize: "var(--text-xs)", fontFamily: "var(--font-ui)",
+                  color: hovered ? "var(--color-gold)" : "var(--text-muted)",
+                  fontWeight: hovered ? "var(--weight-medium)" : "var(--weight-regular)",
+                  transition: "color 0.2s",
+                }}
+              >
+                Details
+                <ArrowRight
+                  size={12}
+                  style={{
+                    display: "block",
+                    transform: hovered ? "translateX(3px)" : "translateX(0)",
+                    transition: "transform 0.2s ease",
+                  }}
+                />
+              </span>
+            </div>
+          </div>
         </motion.div>
-      </div>
+      </Link>
     </motion.div>
   );
 }

@@ -23,6 +23,11 @@ function SkeletonCard() {
   );
 }
 
+const sectionVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.14, delayChildren: 0.1 } },
+};
+
 // ─── ProjectGrid ───────────────────────────────────────────────────────────────
 export default function ProjectGrid({
   projects,
@@ -31,7 +36,7 @@ export default function ProjectGrid({
   onLoadMore,
   hasMore,
   loadingMore = false,
-  ctaEvery = 6, // inject InlineCTA after every N cards
+  ctaEvery = 6,
 }) {
   // Loading skeleton
   if (loading) {
@@ -76,8 +81,12 @@ export default function ProjectGrid({
 
   return (
     <>
-      <div
+      <motion.div
         className="grid"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
         style={{
           gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           gap: "var(--space-6)",
@@ -96,7 +105,7 @@ export default function ProjectGrid({
             ),
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
 
       {/* Load more */}
       <LoadMore onLoad={onLoadMore} hasMore={hasMore} loading={loadingMore} />

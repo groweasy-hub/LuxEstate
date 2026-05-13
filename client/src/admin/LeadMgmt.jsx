@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchLeads, updateLeadStatus, deleteLead } from '@/store/leadsSlice';
 import { Search, Download, Trash2, RefreshCw } from 'lucide-react';
@@ -37,10 +38,19 @@ function exportCSV(leads) {
 
 export default function LeadMgmt() {
   const dispatch = useDispatch();
+  const searchParams = useSearchParams();
   const { items: leads, total, loading } = useSelector((state) => state.leads);
   const [search, setSearch] = useState('');
-  const [filterStatus, setFilter] = useState('All');
+  const statusParam = searchParams.get('status');
+  const initialStatus = STATUSES.includes(statusParam) ? statusParam : 'All';
+  const [filterStatus, setFilter] = useState(initialStatus);
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const nextStatus = STATUSES.includes(statusParam) ? statusParam : 'All';
+    setFilter(nextStatus);
+    setPage(1);
+  }, [statusParam]);
 
   useEffect(() => {
     dispatch(fetchLeads({ page, limit: 20, ...(filterStatus !== 'All' && { status: filterStatus }), ...(search && { search }) }));
@@ -59,7 +69,11 @@ export default function LeadMgmt() {
           <p className="small">{total} total leads</p>
         </div>
         <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
-          <button onClick={() => dispatch(fetchLeads({ page, limit: 20 }))} className="btn btn-ghost btn-sm" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+          <button
+            onClick={() => dispatch(fetchLeads({ page, limit: 20, ...(filterStatus !== 'All' && { status: filterStatus }), ...(search && { search }) }))}
+            className="btn btn-ghost btn-sm"
+            style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}
+          >
             <RefreshCw size={13} /> Refresh
           </button>
           <button onClick={() => exportCSV(leads)} className="btn btn-secondary btn-sm" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>

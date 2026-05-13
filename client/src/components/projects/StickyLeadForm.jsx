@@ -75,7 +75,7 @@ export default function StickyLeadForm({ project }) {
           ))}
         </div>
 
-        <LeadForm compact />
+        <LeadForm compact project={project} />
       </div>
     </motion.aside>
   );

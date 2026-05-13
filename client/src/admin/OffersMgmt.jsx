@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { createOffer, updateOffer, deleteOffer, fetchOffers } from '@/store/offersSlice';
 import { fetchProjects } from '@/store/projectsSlice';
@@ -274,10 +275,12 @@ function OfferModal({ offer, projects, onClose, onSave, saving }) {
 
 export default function OffersMgmt() {
   const dispatch = useDispatch();
+  const searchParams = useSearchParams();
   const offers = useSelector((state) => state.offers.items);
   const projects = useSelector((state) => state.projects.items);
   const [modal, setModal] = useState(null);
   const [saving, setSaving] = useState(false);
+  const activeOnly = searchParams.get('active') === 'true';
 
   useEffect(() => {
     dispatch(fetchOffers({}));
@@ -288,6 +291,7 @@ export default function OffersMgmt() {
     () => [...projects].sort((a, b) => a.title.localeCompare(b.title)),
     [projects]
   );
+  const visibleOffers = activeOnly ? offers.filter((offer) => offer.active) : offers;
 
   const handleSave = async (data) => {
     setSaving(true);
@@ -302,7 +306,10 @@ export default function OffersMgmt() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
         <div>
           <h2 style={{ marginBottom: 2 }}>Offers</h2>
-          <p className="small">{offers.filter((offer) => offer.active).length} active · {offers.length} total</p>
+          <p className="small">
+            {activeOnly ? 'Showing active offers only. ' : ''}
+            {offers.filter((offer) => offer.active).length} active | {offers.length} total
+          </p>
         </div>
         <button onClick={() => setModal('add')} className="btn btn-primary btn-sm" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <Plus size={14} /> Add Offer
@@ -311,7 +318,7 @@ export default function OffersMgmt() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
         <AnimatePresence>
-          {offers.map((offer) => (
+          {visibleOffers.map((offer) => (
             <motion.div
               key={offer._id || offer.id}
               className="card"
@@ -334,7 +341,7 @@ export default function OffersMgmt() {
                   {offer.title}
                 </p>
                 <p className="small" style={{ marginBottom: 4 }}>
-                  {(offer.projectId?.title || 'No project linked')} · {offer.discount || 'No discount'}
+                  {(offer.projectId?.title || 'No project linked')} | {offer.discount || 'No discount'}
                 </p>
                 <p className="small" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {offer.offerText || 'No offer description'}
@@ -364,9 +371,9 @@ export default function OffersMgmt() {
           ))}
         </AnimatePresence>
 
-        {offers.length === 0 && (
+        {visibleOffers.length === 0 && (
           <div className="card" style={{ padding: 'var(--space-12)', textAlign: 'center', color: 'var(--text-muted)' }}>
-            No offers yet. Add your first offer for an existing project.
+            {activeOnly ? 'No active offers right now.' : 'No offers yet. Add your first offer for an existing project.'}
           </div>
         )}
       </div>

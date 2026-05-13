@@ -16,7 +16,9 @@ function normalizeOptions(sourceOrOptions, projectInterestedArg) {
     projectId: sourceOrOptions.projectId || '',
     offerId: sourceOrOptions.offerId || '',
     offerTitle: sourceOrOptions.offerTitle || '',
+    offerDiscount: sourceOrOptions.offerDiscount || '',
     message: sourceOrOptions.message || '',
+    imageUrl: sourceOrOptions.imageUrl || '',
   };
 }
 
@@ -55,6 +57,8 @@ export function useLeadForm(sourceOrOptions = 'other', projectInterestedArg = ''
         projectId: options.projectId || undefined,
         offerId: options.offerId || undefined,
         offerTitle: options.offerTitle || undefined,
+        offerDiscount: options.offerDiscount || undefined,
+        imageUrl: options.imageUrl || undefined,
       });
       setStatus('success');
     } catch {

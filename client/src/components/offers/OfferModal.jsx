@@ -11,7 +11,9 @@ function OfferLeadForm({ offer }) {
     projectId: offer?.projectDbId || '',
     offerId: offer?.id || '',
     offerTitle: offer?.title || '',
+    offerDiscount: offer?.discount || '',
     message: offer?.title ? `Interested in claiming deal: ${offer.title}` : '',
+    imageUrl: offer?.img || '',
   });
 
   if (status === 'success') {

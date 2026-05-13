@@ -1,5 +1,6 @@
 const Offer = require('../models/Offer');
 const Project = require('../models/Project');
+const { deleteByUrl } = require('./uploadController');
 
 // GET /api/offers
 exports.getAll = async (req, res, next) => {
@@ -66,8 +67,15 @@ exports.update = async (req, res, next) => {
       }
     }
 
+    const existing = await Offer.findById(req.params.id).select('img');
+    if (!existing) return res.status(404).json({ success: false, message: 'Offer not found' });
+
+    // Delete old image if replaced
+    if (req.body.img && req.body.img !== existing.img) {
+      await deleteByUrl(existing.img);
+    }
+
     const offer = await Offer.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!offer) return res.status(404).json({ success: false, message: 'Offer not found' });
     const populated = await Offer.findById(offer._id)
       .populate('projectId', 'title slug location thumbnail')
       .select('-__v');
@@ -78,6 +86,8 @@ exports.update = async (req, res, next) => {
 // DELETE /api/offers/:id  (admin)
 exports.remove = async (req, res, next) => {
   try {
+    const offer = await Offer.findById(req.params.id).select('img');
+    if (offer) await deleteByUrl(offer.img);
     await Offer.findByIdAndDelete(req.params.id);
     res.json({ success: true, message: 'Offer deleted' });
   } catch (err) { next(err); }

@@ -2,12 +2,11 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Bed,
   Building2,
-  Eye,
   MapPin,
   Maximize,
 } from "lucide-react";
@@ -211,45 +210,6 @@ function FeaturedProjectCard({ project }) {
               />
             </motion.div>
 
-            <AnimatePresence>
-              {hovered && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "rgba(6,6,6,0.52)",
-                    backdropFilter: "blur(3px)",
-                  }}
-                >
-                  <motion.div
-                    initial={{ y: 16, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      delay: 0.05,
-                      duration: 0.3,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="btn btn-primary"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "var(--space-2, 0.5rem)",
-                    }}
-                  >
-                    <Eye size={14} style={{ display: "block" }} />
-                    View Details
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
             {project.badge && (
               <span
                 className={`badge ${
@@ -415,8 +375,9 @@ function FeaturedProjectCard({ project }) {
                   alignItems: "center",
                   gap: 4,
                   fontSize: "var(--text-xs, 0.75rem)",
-                  opacity: hovered ? 1 : 0.6,
-                  transition: "opacity 0.2s",
+                  color: hovered ? "var(--color-gold)" : "var(--text-muted)",
+                  fontWeight: hovered ? "var(--weight-medium)" : "var(--weight-regular)",
+                  transition: "color 0.2s",
                 }}
               >
                 Details

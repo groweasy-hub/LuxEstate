@@ -3,8 +3,24 @@ const multer     = require('multer');
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  limits: { fileSize: 10 * 1024 * 1024 },
 });
+
+// Extract public_id from a Cloudinary URL
+function getPublicId(url) {
+  if (!url || !url.includes('cloudinary.com')) return null;
+  const match = url.match(/\/upload\/(?:v\d+\/)?(.+?)(?:\.[^.]+)?$/);
+  return match ? match[1] : null;
+}
+
+// Delete a single Cloudinary asset by URL
+async function deleteByUrl(url) {
+  const publicId = getPublicId(url);
+  if (!publicId) return;
+  try { await cloudinary.v2.uploader.destroy(publicId); } catch (_) {}
+}
+
+module.exports.deleteByUrl = deleteByUrl;
 
 function uploadToCloudinary(file) {
   return new Promise((resolve, reject) => {
@@ -21,12 +37,11 @@ function uploadToCloudinary(file) {
         resolve(result);
       }
     );
-
     uploadStream.end(file.buffer);
   });
 }
 
-// POST /api/upload  (admin)
+// POST /api/upload
 exports.uploadFile = [
   upload.single('file'),
   async (req, res, next) => {
@@ -38,7 +53,7 @@ exports.uploadFile = [
   },
 ];
 
-// POST /api/upload/multiple  (admin)
+// POST /api/upload/multiple
 exports.uploadMultiple = [
   upload.array('files', 20),
   async (req, res, next) => {
@@ -51,11 +66,11 @@ exports.uploadMultiple = [
   },
 ];
 
-// DELETE /api/upload/:publicId  (admin)
+// DELETE /api/upload/:publicId
 exports.deleteFile = async (req, res, next) => {
   try {
-    const { publicId } = req.params;
-    await cloudinary.uploader.destroy(publicId);
+    const publicId = decodeURIComponent(req.params.publicId);
+    await cloudinary.v2.uploader.destroy(publicId);
     res.json({ success: true, message: 'File deleted' });
   } catch (err) { next(err); }
 };

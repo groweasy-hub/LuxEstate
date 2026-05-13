@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const { deleteByUrl } = require('./uploadController');
 
 // GET /api/projects
 exports.getAll = async (req, res, next) => {
@@ -89,8 +90,21 @@ exports.create = async (req, res, next) => {
 // PUT /api/projects/:id  (admin)
 exports.update = async (req, res, next) => {
   try {
+    const existing = await Project.findById(req.params.id).select('thumbnail galleryImages');
+    if (!existing) return res.status(404).json({ success: false, message: 'Project not found' });
+
+    // Delete old thumbnail if replaced
+    if (req.body.thumbnail && req.body.thumbnail !== existing.thumbnail) {
+      await deleteByUrl(existing.thumbnail);
+    }
+
+    // Delete removed gallery images
+    if (req.body.galleryImages) {
+      const removed = (existing.galleryImages || []).filter(url => !req.body.galleryImages.includes(url));
+      await Promise.all(removed.map(deleteByUrl));
+    }
+
     const project = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!project) return res.status(404).json({ success: false, message: 'Project not found' });
     res.json({ success: true, project });
   } catch (err) { next(err); }
 };
@@ -98,6 +112,11 @@ exports.update = async (req, res, next) => {
 // DELETE /api/projects/:id  (admin)
 exports.remove = async (req, res, next) => {
   try {
+    const project = await Project.findById(req.params.id).select('thumbnail galleryImages');
+    if (project) {
+      await deleteByUrl(project.thumbnail);
+      await Promise.all((project.galleryImages || []).map(deleteByUrl));
+    }
     await Project.findByIdAndDelete(req.params.id);
     res.json({ success: true, message: 'Project deleted' });
   } catch (err) { next(err); }
