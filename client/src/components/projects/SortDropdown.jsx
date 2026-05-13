@@ -27,7 +27,7 @@ export default function SortDropdown({ sort, setSort, options }) {
   }, []);
 
   return (
-    <div ref={ref} style={{ position: "relative", minWidth: 200 }}>
+    <div ref={ref} style={{ position: "relative", minWidth: 0, width: "100%", maxWidth: 220 }}>
       <button
         onClick={() => setOpen((o) => !o)}
         className="btn btn-ghost btn-sm flex items-center"

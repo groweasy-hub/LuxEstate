@@ -10,7 +10,6 @@ import {
   useProjectFilters,
 } from "@/components/projects/ProjectFilters";
 import SortDropdown from "@/components/projects/SortDropdown";
-import FloatingWhatsApp from "@/components/projects/Floatingwhatsapp";
 
 export default function ProjectsClient({ initialProjects = [] }) {
   const {
@@ -159,6 +158,7 @@ export default function ProjectsClient({ initialProjects = [] }) {
         <div className="container">
           <motion.div
             className="flex-between flex-wrap gap-4"
+            data-project-toolbar
             style={{ marginBottom: "var(--space-8)" }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -171,7 +171,9 @@ export default function ProjectsClient({ initialProjects = [] }) {
               </p>
               <h2 style={{ marginBottom: 0 }}>Available Properties</h2>
             </div>
-            <SortDropdown sort={sort} setSort={setSort} options={SORT_OPTIONS} />
+            <div data-project-sort>
+              <SortDropdown sort={sort} setSort={setSort} options={SORT_OPTIONS} />
+            </div>
           </motion.div>
 
           <ProjectGrid
@@ -184,8 +186,6 @@ export default function ProjectsClient({ initialProjects = [] }) {
           />
         </div>
       </section>
-
-      <FloatingWhatsApp />
     </>
   );
 }

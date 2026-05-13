@@ -35,7 +35,7 @@ export default function BuilderSection() {
         <div
           ref={gridRef}
           data-stagger
-          className="grid"
+          className="grid builder-grid"
           style={{
             gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
             gap: "var(--space-4)",
@@ -44,7 +44,7 @@ export default function BuilderSection() {
           {builders.map(({ name, logo }) => (
             <div
               key={name}
-              className="card"
+              className="card builder-card"
               style={{
                 padding: "var(--space-5)",
                 display: "flex",
@@ -69,6 +69,7 @@ export default function BuilderSection() {
               <img
                 src={logo}
                 alt={name}
+                className="builder-logo"
                 style={{
                   maxHeight: 48,
                   maxWidth: "100%",
@@ -80,6 +81,25 @@ export default function BuilderSection() {
           ))}
         </div>
       </div>
+      <style>{`
+        @media (max-width: 767px) {
+          .builder-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: var(--space-3) !important;
+          }
+
+          .builder-card {
+            min-height: 78px !important;
+            padding: var(--space-4) !important;
+            filter: none !important;
+            background: var(--surface-card);
+          }
+
+          .builder-logo {
+            max-height: 36px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

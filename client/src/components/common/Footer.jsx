@@ -737,6 +737,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <motion.div
+          data-footer-bottom
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.5, duration: 0.6 }}

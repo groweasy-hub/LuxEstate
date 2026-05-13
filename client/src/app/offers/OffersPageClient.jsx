@@ -166,7 +166,7 @@ export default function OffersPageClient({
             viewport={{ once: true, amount: 0.1 }}
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
               gap: "var(--space-6)",
               alignItems: "stretch",
             }}
@@ -201,7 +201,7 @@ export default function OffersPageClient({
             <p className="lead" style={{ marginBottom: "var(--space-8)" }}>
               Our property experts will match you with the best offer based on your budget and requirements.
             </p>
-            <div className="flex-center gap-4 flex-wrap">
+            <div className="flex-center gap-4 flex-wrap" data-offers-final-buttons>
               <motion.div
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}

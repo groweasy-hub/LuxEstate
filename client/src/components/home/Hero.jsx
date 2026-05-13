@@ -49,10 +49,11 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
+      className="hero-section"
       style={{
         position: "relative",
         overflow: "hidden",
-        height: "100vh",
+        height: "100svh",
         minHeight: 640,
         display: "flex",
         flexDirection: "column",
@@ -141,6 +142,7 @@ export default function Hero() {
 
       {/* ── HERO CONTENT ── */}
       <motion.div
+        className="hero-content"
         style={{
           position: "relative",
           zIndex: 2,
@@ -189,6 +191,7 @@ export default function Hero() {
                 {line.split("").map((char, charIdx) => (
                   <motion.span
                     key={charIdx}
+                    className="hero-headline-char"
                     style={{
                       display: "inline-block",
                       fontFamily: "var(--font-display)",
@@ -216,6 +219,7 @@ export default function Hero() {
 
           {/* ── Description + Search Bar ── */}
           <motion.div
+            className="hero-copy-row"
             style={{
               display: "flex",
               alignItems: "flex-start",
@@ -232,7 +236,7 @@ export default function Hero() {
           >
             {/* Description */}
             <p
-              className="lead"
+              className="lead hero-lead"
               style={{
                 maxWidth: 460,
                 flexShrink: 0,
@@ -248,7 +252,8 @@ export default function Hero() {
 
             {/* Search Bar */}
             <motion.div
-              style={{ flex: 1, minWidth: 280 }}
+              className="hero-search"
+              style={{ flex: 1, minWidth: 0 }}
               initial={{ opacity: 0, x: 28 }}
               animate={hasLoaded ? { opacity: 1, x: 0 } : {}}
               transition={{
@@ -313,6 +318,7 @@ export default function Hero() {
 
       {/* ── Scroll Indicator ── */}
       <motion.div
+        className="hero-scroll-indicator"
         style={{
           position: "absolute",
           bottom: "var(--space-8, 2rem)",
@@ -349,6 +355,56 @@ export default function Hero() {
           />
         </motion.div>
       </motion.div>
+      <style>{`
+        @media (max-width: 767px) {
+          .hero-content {
+            padding-top: calc(var(--nav-height) + var(--space-4)) !important;
+            padding-bottom: var(--space-16, 4rem) !important;
+          }
+
+          .hero-headline-char {
+            font-size: clamp(2.35rem, 14vw, 4rem) !important;
+            line-height: 0.98 !important;
+          }
+
+          .hero-copy-row {
+            gap: var(--space-5, 1.25rem) !important;
+          }
+
+          .hero-lead {
+            max-width: none !important;
+            font-size: var(--text-sm) !important;
+            line-height: 1.65 !important;
+          }
+
+          .hero-search {
+            width: 100%;
+          }
+
+          .hero-searchbar {
+            flex-wrap: nowrap !important;
+            width: 100%;
+          }
+
+          .hero-searchbar-input {
+            min-width: 0;
+            padding: 0.9rem 0.85rem !important;
+            font-size: 0.8rem !important;
+          }
+
+          .hero-searchbar-button {
+            width: auto !important;
+            justify-content: center;
+            padding: 0.9rem 1rem !important;
+            font-size: 0.75rem !important;
+            flex-shrink: 0;
+          }
+
+          .hero-scroll-indicator {
+            bottom: var(--space-4, 1rem) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -374,6 +430,7 @@ function SearchBar() {
     <div style={{ position: "relative" }}>
       {/* Input row */}
       <motion.div
+        className="hero-searchbar"
         style={{
           display: "flex",
           alignItems: "center",
@@ -417,6 +474,7 @@ function SearchBar() {
 
         {/* Text input */}
         <input
+          className="hero-searchbar-input"
           type="text"
           value={query}
           placeholder="Search by location, project or builder..."
@@ -447,6 +505,7 @@ function SearchBar() {
 
         {/* Search button */}
         <motion.button
+          className="hero-searchbar-button"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           style={{

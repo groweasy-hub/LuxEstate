@@ -27,9 +27,13 @@ export default function FeaturedOffer({ offer, onClaim }) {
         style={{ width: 500, height: 500, top: '50%', right: -100, transform: 'translateY(-50%)', pointerEvents: 'none' }}
       />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 420 }}>
+      <div data-featured-offer-grid style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 420 }}>
         {/* Image side */}
-        <div className="hover-zoom relative overflow-hidden" style={{ borderRadius: 'var(--radius-2xl) 0 0 var(--radius-2xl)' }}>
+        <div
+          data-featured-offer-image
+          className="hover-zoom relative overflow-hidden"
+          style={{ borderRadius: 'var(--radius-2xl) 0 0 var(--radius-2xl)' }}
+        >
           <img
             src={offer.img}
             alt={offer.title}
@@ -39,14 +43,20 @@ export default function FeaturedOffer({ offer, onClaim }) {
               display: 'block',
             }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, transparent 60%, var(--surface-card) 100%)' }} />
+          <div
+            className="featured-offer-image-overlay"
+            style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, transparent 60%, var(--surface-card) 100%)' }}
+          />
           <span className="badge badge-gold animate-gold-glow absolute top-4 left-4" style={{ fontSize: 'var(--text-sm)' }}>
             ⭐ Featured Deal
           </span>
         </div>
 
         {/* Content side */}
-        <div style={{ padding: 'var(--space-10)', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 'var(--space-5)' }}>
+        <div
+          data-featured-offer-content
+          style={{ padding: 'var(--space-10)', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 'var(--space-5)' }}
+        >
 
           {/* Title + location */}
           <div>
@@ -119,7 +129,7 @@ export default function FeaturedOffer({ offer, onClaim }) {
           </div>
 
           {/* CTAs */}
-          <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
+          <div data-featured-offer-actions style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
             <motion.button
               onClick={() => onClaim(offer)}
               className="btn btn-primary btn-lg animate-gold-glow"

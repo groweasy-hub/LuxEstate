@@ -158,6 +158,7 @@ export default function ProjectCard({ project, index }) {
             >
               {detailItems.map(({ Icon, value }) => (
                 <span
+                  className="project-detail-pill"
                   key={value}
                   style={{
                     display: "inline-flex", alignItems: "center", gap: 6,
@@ -202,6 +203,18 @@ export default function ProjectCard({ project, index }) {
           </div>
         </motion.div>
       </Link>
+      <style>{`
+        @media (max-width: 767px) {
+          .project-detail-pill {
+            padding: 0.35rem 0.55rem !important;
+            gap: 0.3rem !important;
+          }
+
+          .project-detail-pill .small {
+            font-size: 0.68rem !important;
+          }
+        }
+      `}</style>
     </motion.div>
   );
 }

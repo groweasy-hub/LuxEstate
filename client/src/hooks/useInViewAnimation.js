@@ -28,6 +28,14 @@ export function useInViewAnimation(options = {}) {
       once = true,
     } = options;
 
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      el.classList.add("is-visible");
+      el
+        .querySelectorAll("[data-reveal], [data-stagger]")
+        .forEach((node) => node.classList.add("is-visible"));
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -42,11 +50,11 @@ export function useInViewAnimation(options = {}) {
       { threshold, rootMargin },
     );
 
-    // Observe the root element itself if it has data-reveal
-    if (el.hasAttribute("data-reveal")) observer.observe(el);
+    if (el.hasAttribute("data-reveal") || el.hasAttribute("data-stagger")) {
+      observer.observe(el);
+    }
 
-    // Also observe all nested data-reveal children
-    const children = el.querySelectorAll("[data-reveal]");
+    const children = el.querySelectorAll("[data-reveal], [data-stagger]");
     children.forEach((child) => observer.observe(child));
 
     return () => observer.disconnect();

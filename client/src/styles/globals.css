@@ -24,6 +24,8 @@ html {
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -38,6 +40,7 @@ body {
   text-rendering: optimizeLegibility;
   min-height: 100vh;
   overflow-x: hidden;
+  width: 100%;
 }
 
 img,
@@ -809,6 +812,10 @@ p {
 
 /* Mobile grid overrides */
 @media (max-width: 767px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+
   .grid-2,
   .grid-3,
   .grid-4 {
@@ -831,8 +838,277 @@ p {
     padding-block: var(--space-20);
   }
 
+  .lead {
+    font-size: var(--text-base);
+    line-height: 1.7;
+  }
+
+  .section-label {
+    gap: var(--space-2);
+  }
+
+  .section-label::before,
+  .section-label::after {
+    width: 18px;
+  }
+
+  .btn {
+    padding: var(--space-3) var(--space-5);
+  }
+
+  .btn-lg {
+    font-size: var(--text-sm);
+    padding: var(--space-4) var(--space-6);
+  }
+
+  [data-project-toolbar] {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: var(--space-4) !important;
+  }
+
+  [data-about-counters] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: var(--space-4) !important;
+  }
+
+  [data-project-sort] {
+    width: 100%;
+    max-width: 220px;
+    align-self: flex-end;
+  }
+
+  [data-featured-offer-grid] {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+
+  [data-featured-offer-image] {
+    min-height: 220px;
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0 !important;
+  }
+
+  [data-featured-offer-image] img {
+    min-height: 220px !important;
+  }
+
+  .featured-offer-image-overlay {
+    background: linear-gradient(
+      180deg,
+      transparent 55%,
+      var(--surface-card) 100%
+    ) !important;
+  }
+
+  [data-featured-offer-content] {
+    padding: var(--space-6) !important;
+    gap: var(--space-4) !important;
+  }
+
+  [data-featured-offer-actions] {
+    gap: var(--space-3) !important;
+  }
+
+  [data-featured-offer-actions] > * {
+    flex: 1 1 100%;
+  }
+
+  [data-featured-offer-actions] .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  [data-story-copy] {
+    text-align: center;
+    align-items: center;
+  }
+
+  [data-story-copy] h2 {
+    font-size: clamp(var(--text-2xl), 8vw, var(--text-3xl));
+  }
+
+  [data-story-copy] p {
+    font-size: var(--text-sm);
+  }
+
+  [data-story-badges] {
+    justify-content: center;
+    gap: var(--space-2) !important;
+  }
+
+  [data-story-badges] .badge {
+    font-size: 0.625rem;
+    padding: 0.35rem 0.6rem;
+  }
+
+  [data-timeline-wrap] {
+    padding-left: var(--space-2);
+  }
+
+  [data-timeline-line] {
+    left: 12px !important;
+    transform: none !important;
+  }
+
+  [data-timeline-row] {
+    grid-template-columns: 10px 1fr !important;
+    gap: var(--space-3) !important;
+    align-items: center !important;
+    margin-bottom: var(--space-6) !important;
+  }
+
+  [data-timeline-spacer] {
+    display: none !important;
+  }
+
+  [data-timeline-dot] {
+    grid-column: 1;
+    justify-content: center !important;
+    padding-top: 0;
+  }
+
+  [data-timeline-row]:nth-child(odd) [data-timeline-dot] {
+    transform: translateY(10px);
+  }
+
+  [data-timeline-row]:nth-child(even) [data-timeline-dot] {
+    transform: translateY(-100px);
+  }
+
+  [data-timeline-card-slot] {
+    grid-column: 2;
+  }
+
+  [data-timeline-row]:nth-child(odd) [data-timeline-card] {
+    text-align: left !important;
+    padding: var(--space-4) !important;
+  }
+
+  [data-timeline-row]:nth-child(even) [data-timeline-card] {
+    text-align: left !important;
+    padding: var(--space-4) !important;
+  }
+
+  [data-team-scroll] {
+    display: flex !important;
+    width: max-content;
+    animation: teamMarquee 26s linear infinite;
+    will-change: transform;
+  }
+
+  [data-team-marquee] {
+    overflow: hidden;
+    width: 100%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  [data-team-marquee]::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-team-set] {
+    display: flex;
+    gap: var(--space-4);
+    width: max-content;
+    padding-right: var(--space-4);
+  }
+
+  [data-team-card] {
+    flex: 0 0 160px;
+  }
+
+  [data-team-card-image] {
+    height: 170px !important;
+  }
+
+  [data-team-card-content] {
+    padding: var(--space-3) !important;
+  }
+
+  [data-team-card-content] h5 {
+    font-size: var(--text-sm);
+  }
+
+  [data-team-card-content] p {
+    font-size: 0.72rem !important;
+    margin-bottom: var(--space-2) !important;
+  }
+
+  [data-about-final-buttons],
+  [data-offers-final-buttons] {
+    gap: var(--space-3) !important;
+  }
+
+  [data-about-final-buttons] .btn,
+  [data-offers-final-buttons] .btn {
+    min-height: 42px;
+    padding: 0.75rem 1rem;
+    font-size: 0.74rem;
+  }
+
+  [data-footer-bottom] {
+    justify-content: center !important;
+    text-align: center;
+  }
+
+  [data-footer-bottom] p {
+    width: 100%;
+  }
+
+  @keyframes teamMarquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   .hide-mobile {
     display: none !important;
+  }
+}
+
+[data-team-marquee] {
+  overflow: hidden;
+  width: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+[data-team-marquee]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-team-scroll] {
+  display: flex;
+  width: max-content;
+  animation: teamMarquee 30s linear infinite;
+  will-change: transform;
+}
+
+[data-team-set] {
+  display: flex;
+  gap: var(--space-6);
+  width: max-content;
+  padding-right: var(--space-6);
+}
+
+[data-team-card] {
+  flex: 0 0 240px;
+}
+
+[data-team-marquee]:hover [data-team-scroll] {
+  animation-play-state: paused;
+}
+
+@keyframes teamMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
@@ -915,9 +1191,8 @@ html.lenis body {
   }
 }
 
-@media (max-width: 639px) {
-  /* Timeline collapses to single column on mobile */
-  [data-timeline-row] {
-    grid-template-columns: 24px 1fr !important;
+@media (max-width: 479px) {
+  [data-team-card] {
+    flex-basis: 150px;
   }
 }

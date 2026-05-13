@@ -87,7 +87,7 @@ export default function FeaturedProjects({ projects = [] }) {
           viewport={{ once: true, amount: 0.15 }}
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
             gap: "var(--space-6, 1.5rem)",
           }}
         >
@@ -323,6 +323,7 @@ function FeaturedProjectCard({ project }) {
             >
               {detailItems.map(({ Icon, value }) => (
                 <span
+                  className="featured-project-pill"
                   key={value}
                   style={{
                     display: "inline-flex",
@@ -394,6 +395,18 @@ function FeaturedProjectCard({ project }) {
           </div>
         </motion.div>
       </Link>
+      <style>{`
+        @media (max-width: 767px) {
+          .featured-project-pill {
+            padding: 0.35rem 0.55rem !important;
+            gap: 0.3rem !important;
+          }
+
+          .featured-project-pill .small {
+            font-size: 0.68rem !important;
+          }
+        }
+      `}</style>
     </motion.div>
   );
 }

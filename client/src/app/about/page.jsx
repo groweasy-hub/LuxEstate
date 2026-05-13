@@ -294,6 +294,7 @@ function CountersSection() {
           ref={ref}
           data-stagger
           className="grid"
+          data-about-counters
           style={{
             gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
             gap: "var(--space-6)",
@@ -433,6 +434,7 @@ function StorySection() {
           {/* Text — slides from right */}
           <motion.div
             className="stack"
+            data-story-copy
             initial={{ opacity: 0, x: 56 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -467,7 +469,7 @@ function StorySection() {
               your life goals, and then match you with the right home — at the
               right price, at the right time.
             </p>
-            <div className="flex flex-wrap gap-3 mt-2">
+            <div className="flex flex-wrap gap-3 mt-2" data-story-badges>
               {[
                 "RERA Certified",
                 "Zero Brokerage",
@@ -502,9 +504,13 @@ function TimelineSection() {
           <h2>A Decade of Milestones</h2>
         </div>
 
-        <div style={{ position: "relative", maxWidth: 800, margin: "0 auto" }}>
+        <div
+          data-timeline-wrap
+          style={{ position: "relative", maxWidth: 800, margin: "0 auto" }}
+        >
           {/* Centre line */}
           <motion.div
+            data-timeline-line
             style={{
               position: "absolute",
               left: "50%",
@@ -526,6 +532,7 @@ function TimelineSection() {
             return (
               <motion.div
                 key={item.year}
+                data-timeline-row
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 48px 1fr",
@@ -539,10 +546,16 @@ function TimelineSection() {
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
                 {/* Left slot */}
-                {isLeft ? <TimelineCard item={item} align="right" /> : <div />}
+                {isLeft ? (
+                  <div data-timeline-card-slot>
+                    <TimelineCard item={item} align="right" />
+                  </div>
+                ) : (
+                  <div data-timeline-spacer />
+                )}
 
                 {/* Centre dot */}
-                <div className="flex-center">
+                <div className="flex-center" data-timeline-dot>
                   <motion.div
                     style={{
                       width: 16,
@@ -566,7 +579,13 @@ function TimelineSection() {
                 </div>
 
                 {/* Right slot */}
-                {!isLeft ? <TimelineCard item={item} align="left" /> : <div />}
+                {!isLeft ? (
+                  <div data-timeline-card-slot>
+                    <TimelineCard item={item} align="left" />
+                  </div>
+                ) : (
+                  <div data-timeline-spacer />
+                )}
               </motion.div>
             );
           })}
@@ -579,6 +598,7 @@ function TimelineSection() {
 function TimelineCard({ item, align }) {
   return (
     <div
+      data-timeline-card
       className="card hover-lift-gold"
       style={{ textAlign: align, padding: "var(--space-5)" }}
     >
@@ -605,6 +625,7 @@ function TimelineCard({ item, align }) {
 
 function TeamSection() {
   const ref = useInViewAnimation();
+  const marqueeMembers = [...TEAM, ...TEAM];
 
   return (
     <section className="section" style={{ background: "var(--surface-page)" }}>
@@ -625,44 +646,41 @@ function TeamSection() {
           </p>
         </div>
 
-        <div
-          data-stagger
-          className="grid"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-            gap: "var(--space-6)",
-          }}
-        >
-          {TEAM.map((member, i) => (
-            <TeamCard key={member.name} member={member} index={i} />
-          ))}
+        <div data-team-marquee className="hide-scrollbar">
+          <div data-team-scroll>
+            <div data-team-set>
+              {marqueeMembers.map((member, i) => (
+                <TeamCard
+                  key={`${member.name}-${i}`}
+                  member={member}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function TeamCard({ member, index }) {
+function TeamCard({ member }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
+      data-team-card
       className="card overflow-hidden group"
       style={{ padding: 0, cursor: "default" }}
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        delay: index * 0.1,
-        duration: 0.55,
-        ease: [0.16, 1, 0.3, 1],
-      }}
       whileHover={{ y: -8, boxShadow: "var(--shadow-card-hover)" }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
       {/* Photo */}
-      <div className="relative overflow-hidden" style={{ height: 260 }}>
+      <div
+        className="relative overflow-hidden"
+        data-team-card-image
+        style={{ height: 260 }}
+      >
         <motion.div
           style={{
             width: "100%",
@@ -699,7 +717,7 @@ function TeamCard({ member, index }) {
       </div>
 
       {/* Info */}
-      <div style={{ padding: "var(--space-4)" }}>
+      <div data-team-card-content style={{ padding: "var(--space-4)" }}>
         <h5 style={{ marginBottom: "var(--space-1)" }}>{member.name}</h5>
         <p
           className="small"
@@ -775,7 +793,7 @@ function FinalCTA() {
             Whether you're a first-time buyer or a seasoned investor, our team
             is ready to guide you every step of the way.
           </p>
-          <div className="flex-center gap-4 flex-wrap">
+          <div className="flex-center gap-4 flex-wrap" data-about-final-buttons>
             <motion.div
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

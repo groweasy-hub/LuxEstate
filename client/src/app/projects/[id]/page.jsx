@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import { getProjectById, getAllProjects } from "@/lib/data/projects";
-import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 
 export const dynamic = "force-dynamic";
 
@@ -33,11 +32,6 @@ export default async function ProjectDetailPage({ params }) {
   if (!project) notFound();
 
   return (
-    <>
-      <ProjectDetail project={project} allProjects={allProjects} />
-      <FloatingWhatsApp
-        message={`Hi, I'm interested in ${project.title}. Please share more details.`}
-      />
-    </>
+    <ProjectDetail project={project} allProjects={allProjects} />
   );
 }

@@ -34,6 +34,7 @@ export default function Navigation() {
   return (
     <>
       <header
+        className="nav-shell"
         style={{
           position: 'fixed',
           top: 0, left: 0, right: 0,
@@ -49,6 +50,7 @@ export default function Navigation() {
       >
         {/* 3-column grid: logo | nav | cta */}
         <div
+          className="nav-inner"
           style={{
             maxWidth: 'var(--container-xl)',
             margin: '0 auto',
@@ -140,6 +142,7 @@ export default function Navigation() {
           >
             {/* Mobile header */}
             <div
+              className="nav-mobile-header"
               style={{
                 height: 'var(--nav-height)',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -235,9 +238,21 @@ export default function Navigation() {
 
         /* Mobile: hide nav + cta, show hamburger */
         @media (max-width: 767px) {
+          .nav-shell {
+            width: 100%;
+          }
+          .nav-inner {
+            width: 100%;
+            padding: 0 var(--space-4) !important;
+            grid-template-columns: auto 1fr auto !important;
+            gap: var(--space-3);
+          }
           .nav-desktop { display: none !important; }
           .nav-cta     { display: none !important; }
           .nav-hamburger { display: inline-flex !important; }
+          .nav-mobile-header {
+            padding: 0 var(--space-4) !important;
+          }
         }
       `}</style>
     </>

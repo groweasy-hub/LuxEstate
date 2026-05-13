@@ -4,32 +4,84 @@ import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navigation from '@/components/common/Navigation';
 import Footer from '@/components/common/Footer';
-import WhatsAppButton from '@/components/common/WhatsAppButton';
+import FloatingWhatsApp from '@/components/common/FloatingWhatsApp';
 
-function useScrollReveal() {
+function useScrollReveal(enabled = true) {
   const observerRef = useRef(null);
+  const mutationObserverRef = useRef(null);
+
+  const revealAll = () => {
+    document
+      .querySelectorAll('[data-reveal], [data-stagger]')
+      .forEach((el) => el.classList.add('is-visible'));
+  };
 
   const attach = () => {
+    if (!enabled) return;
+
     if (observerRef.current) observerRef.current.disconnect();
+
     const els = document.querySelectorAll('[data-reveal], [data-stagger]');
+    if (!els.length) return;
+
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      revealAll();
+      return;
+    }
+
     observerRef.current = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('is-visible'); }),
-      { threshold: 0.1 }
+      (entries) =>
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observerRef.current?.unobserve(entry.target);
+          }
+        }),
+      { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
     );
-    els.forEach((el) => observerRef.current.observe(el));
+
+    els.forEach((el) => {
+      if (!el.classList.contains('is-visible')) {
+        observerRef.current.observe(el);
+      }
+    });
   };
 
   useEffect(() => {
-    // Small delay so DOM is painted
-    const t = setTimeout(attach, 80);
-    return () => clearTimeout(t);
-  });
+    if (!enabled) {
+      observerRef.current?.disconnect();
+      mutationObserverRef.current?.disconnect();
+      return undefined;
+    }
+
+    const paintTimer = setTimeout(attach, 80);
+    const fallbackTimer = setTimeout(revealAll, 1800);
+
+    if (typeof window !== 'undefined' && 'MutationObserver' in window) {
+      mutationObserverRef.current?.disconnect();
+      mutationObserverRef.current = new MutationObserver(() => {
+        window.requestAnimationFrame(attach);
+      });
+
+      mutationObserverRef.current.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    return () => {
+      clearTimeout(paintTimer);
+      clearTimeout(fallbackTimer);
+      observerRef.current?.disconnect();
+      mutationObserverRef.current?.disconnect();
+    };
+  }, [enabled]);
 }
 
 export default function ClientShell({ children }) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith('/admin');
-  useScrollReveal();
+  useScrollReveal(!isAdminRoute);
 
   useEffect(() => {
     if (isAdminRoute) return undefined;
@@ -75,7 +127,7 @@ export default function ClientShell({ children }) {
         </motion.main>
       </AnimatePresence>
       {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <WhatsAppButton />}
+      {!isAdminRoute && <FloatingWhatsApp />}
     </>
   );
 }

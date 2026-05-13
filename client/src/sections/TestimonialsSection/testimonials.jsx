@@ -111,7 +111,12 @@ export default function TestimonialsSection() {
 
       <div className="container">
         {/* Heading */}
-        <div ref={ref} data-reveal className="text-center mb-14">
+        <div
+          ref={ref}
+          data-reveal
+          className="text-center"
+          style={{ marginBottom: "var(--space-16)" }}
+        >
           <div className="section-label" style={{ justifyContent: "center" }}>
             <span>Testimonials</span>
           </div>
