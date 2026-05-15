@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { LayoutDashboard, Users, Building2, Tag, Menu, LogOut, ChevronRight } from 'lucide-react';
 import { fetchMe, loginAdmin, logoutAdmin } from '@/store/authSlice';
+import { SITE_CONFIG } from '@/lib/siteConfig';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -126,7 +127,7 @@ export default function AdminShell({ children }) {
         >
           {!collapsed && (
             <span className="text-gradient-gold" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', whiteSpace: 'nowrap' }}>
-              LuxEstate
+              {SITE_CONFIG.brandName}
             </span>
           )}
           <button

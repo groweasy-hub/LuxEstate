@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useScroll } from '@/hooks/useScroll';
+import { SITE_CONFIG } from '@/lib/siteConfig';
 
 const links = [
   { href: '/projects', label: 'Projects' },
@@ -72,7 +73,7 @@ export default function Navigation() {
                 letterSpacing: 'var(--tracking-wide)',
               }}
             >
-              LuxEstate
+              {SITE_CONFIG.brandName}
             </span>
           </Link>
 
@@ -154,7 +155,7 @@ export default function Navigation() {
                 className="text-gradient-gold"
                 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)' }}
               >
-                LuxEstate
+                {SITE_CONFIG.brandName}
               </span>
               <button
                 onClick={() => setMenuOpen(false)}

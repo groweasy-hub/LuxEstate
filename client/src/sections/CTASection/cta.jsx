@@ -4,23 +4,24 @@ import { motion } from "framer-motion";
 import { useInViewAnimation } from "@/hooks/useInViewAnimation";
 import LeadForm from "@/components/common/LeadForm";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { buildWhatsAppUrl, SITE_CONFIG } from "@/lib/siteConfig";
 
 const contactItems = [
   {
     Icon: Phone,
-    text: "+91 99999 99999",
-    href: "tel:+919999999999",
+    text: SITE_CONFIG.phoneDisplay,
+    href: SITE_CONFIG.phoneHref,
     label: "Call us",
   },
   {
     Icon: Mail,
-    text: "hello@luxestate.in",
-    href: "mailto:hello@luxestate.in",
+    text: SITE_CONFIG.email,
+    href: SITE_CONFIG.emailHref,
     label: "Email us",
   },
   {
     Icon: MapPin,
-    text: "Bandra West, Mumbai 400050",
+    text: SITE_CONFIG.addressInline,
     href: null,
     label: "Visit us",
   },
@@ -188,7 +189,7 @@ export default function CTASection() {
 
             {/* WhatsApp CTA */}
             <motion.a
-              href="https://wa.me/919999999999?text=Hi%2C%20I%27m%20interested%20in%20a%20property%20consultation."
+              href={buildWhatsAppUrl("Hi, I'm interested in a PropertyPerks consultation.")}
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={() => setWhatsappHover(true)}

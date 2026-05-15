@@ -1,7 +1,7 @@
 {
-  "name": "luxestate-server",
+  "name": "propertyperks-server",
   "version": "1.0.0",
-  "description": "LuxEstate Real Estate Platform — Backend API",
+  "description": "PropertyPerks Real Estate Platform Backend API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

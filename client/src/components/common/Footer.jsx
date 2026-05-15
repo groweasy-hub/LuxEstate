@@ -12,6 +12,7 @@ import {
   CheckCircle,
   ChevronRight,
 } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 function SocialIconBase({ size = 15, children, ...props }) {
   return (
@@ -207,7 +208,7 @@ function Newsletter() {
         >
           <CheckCircle size={15} color="#4ade80" />
           <span className="small" style={{ color: "#4ade80" }}>
-            You're subscribed! We'll be in touch.
+            You&apos;re subscribed! We&apos;ll be in touch.
           </span>
         </motion.div>
       ) : (
@@ -417,7 +418,7 @@ export default function Footer() {
               Book Site Visit <ArrowRight size={14} className="icon" />
             </Link>
             <a
-              href="tel:+919999999999"
+              href={SITE_CONFIG.phoneHref}
               className="btn btn-secondary flex items-center gap-2"
             >
               <Phone size={14} /> Call Now
@@ -465,8 +466,7 @@ export default function Footer() {
                   lineHeight: 1,
                 }}
               >
-                Lux
-                <span style={{ fontWeight: "var(--weight-bold)" }}>Estate</span>
+                {SITE_CONFIG.brandName}
               </span>
             </Link>
 
@@ -479,8 +479,8 @@ export default function Footer() {
                 marginBottom: "var(--space-8)",
               }}
             >
-              India's most trusted premium real estate channel partner.
-              Connecting discerning buyers to extraordinary homes since 2010.
+              A modern premium real estate partner helping buyers make
+              confident property decisions since {SITE_CONFIG.sinceYear}.
             </p>
 
             {/* Trust badges */}
@@ -694,15 +694,15 @@ export default function Footer() {
               {[
                 {
                   Icon: Phone,
-                  text: "+91 99999 99999",
-                  href: "tel:+919999999999",
+                  text: SITE_CONFIG.phoneDisplay,
+                  href: SITE_CONFIG.phoneHref,
                 },
                 {
                   Icon: Mail,
-                  text: "hello@luxestate.in",
-                  href: "mailto:hello@luxestate.in",
+                  text: SITE_CONFIG.email,
+                  href: SITE_CONFIG.emailHref,
                 },
-                { Icon: MapPin, text: "Jubilee Hills, Hyderabad", href: "#" },
+                { Icon: MapPin, text: SITE_CONFIG.addressInline, href: "#" },
               ].map(({ Icon, text, href }) => (
                 <a
                   key={text}
@@ -753,7 +753,7 @@ export default function Footer() {
           }}
         >
           <p style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>
-            All rights reserved. © 2026 by LuxEstate
+            All rights reserved. Copyright {SITE_CONFIG.rightsYear} by {SITE_CONFIG.brandName}
           </p>
           <p style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>
             Powered and secured by Kommu Tech &amp; Marketing Pvt.Ltd
@@ -776,3 +776,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+

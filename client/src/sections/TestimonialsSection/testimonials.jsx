@@ -9,7 +9,7 @@ const testimonials = [
     name: "Rahul Sharma",
     role: "Purchased 3BHK, Bandra",
     initials: "RS",
-    text: "LuxEstate made our home buying journey completely seamless. Their team was professional, transparent, and always available. We got the best deal possible — saved over ₹8 lakhs compared to direct booking!",
+    text: "PropertyPerks made our home buying journey completely seamless. Their team was professional, transparent, and always available. We got the best deal possible and saved over Rs. 8 lakhs compared to direct booking.",
     rating: 5,
     color: "#D4AF37",
   },
@@ -25,7 +25,7 @@ const testimonials = [
     name: "Vikram Nair",
     role: "Purchased Villa, Lonavala",
     initials: "VN",
-    text: "I was skeptical at first, but LuxEstate exceeded all expectations. Their knowledge of the market is unmatched. The site visits were well-organized and the paperwork was handled flawlessly.",
+    text: "I was skeptical at first, but PropertyPerks exceeded all expectations. Their knowledge of the market is unmatched. The site visits were well-organized and the paperwork was handled flawlessly.",
     rating: 5,
     color: "#B8967A",
   },
@@ -33,7 +33,7 @@ const testimonials = [
     name: "Ananya Desai",
     role: "Purchased 2BHK, Thane",
     initials: "AD",
-    text: "As a first-time buyer, I had so many questions. The LuxEstate team patiently guided me through everything — from shortlisting to registration. I could not have done it without them!",
+    text: "As a first-time buyer, I had so many questions. The PropertyPerks team patiently guided me through everything - from shortlisting to registration. I could not have done it without them!",
     rating: 5,
     color: "#D4AF37",
   },
@@ -42,7 +42,7 @@ const testimonials = [
 export default function TestimonialsSection() {
   const ref = useInViewAnimation();
   const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
+  const [direction, setDirection] = useState(1);
 
   const prev = useCallback(() => {
     setDirection(-1);
@@ -54,7 +54,6 @@ export default function TestimonialsSection() {
     setCurrent((c) => (c + 1) % testimonials.length);
   }, []);
 
-  // Auto-advance every 5s
   useEffect(() => {
     const id = setInterval(next, 5000);
     return () => clearInterval(id);
@@ -91,7 +90,6 @@ export default function TestimonialsSection() {
         overflow: "hidden",
       }}
     >
-      {/* Large background quote mark */}
       <div
         style={{
           position: "absolute",
@@ -106,11 +104,10 @@ export default function TestimonialsSection() {
           userSelect: "none",
         }}
       >
-        "
+        &quot;
       </div>
 
       <div className="container">
-        {/* Heading */}
         <div
           ref={ref}
           data-reveal
@@ -123,7 +120,6 @@ export default function TestimonialsSection() {
           <h2>What Our Clients Say</h2>
         </div>
 
-        {/* Card area */}
         <div style={{ maxWidth: 720, margin: "0 auto", position: "relative" }}>
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -140,7 +136,6 @@ export default function TestimonialsSection() {
                 overflow: "hidden",
               }}
             >
-              {/* Gold accent line */}
               <div
                 style={{
                   position: "absolute",
@@ -153,7 +148,6 @@ export default function TestimonialsSection() {
                 }}
               />
 
-              {/* Quote icon */}
               <Quote
                 size={28}
                 color="var(--color-gold)"
@@ -164,7 +158,6 @@ export default function TestimonialsSection() {
                 }}
               />
 
-              {/* Text */}
               <p
                 className="lead"
                 style={{
@@ -174,10 +167,9 @@ export default function TestimonialsSection() {
                   lineHeight: 1.75,
                 }}
               >
-                "{t.text}"
+                &quot;{t.text}&quot;
               </p>
 
-              {/* Author row */}
               <div
                 style={{
                   display: "flex",
@@ -185,7 +177,6 @@ export default function TestimonialsSection() {
                   gap: "var(--space-4)",
                 }}
               >
-                {/* Avatar */}
                 <div
                   style={{
                     width: 48,
@@ -216,7 +207,6 @@ export default function TestimonialsSection() {
                   </span>
                 </div>
 
-                {/* Stars — pushed right */}
                 <div style={{ marginLeft: "auto", display: "flex", gap: 2 }}>
                   {Array.from({ length: t.rating }).map((_, i) => (
                     <Star
@@ -231,7 +221,6 @@ export default function TestimonialsSection() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation */}
           <div
             style={{
               display: "flex",
@@ -247,7 +236,6 @@ export default function TestimonialsSection() {
               icon={<ChevronLeft size={18} />}
             />
 
-            {/* Dot indicators */}
             <div
               style={{
                 display: "flex",

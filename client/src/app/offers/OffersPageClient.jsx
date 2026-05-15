@@ -9,6 +9,7 @@ import OfferCard from "@/components/offers/OfferCard";
 import OfferModal from "@/components/offers/OfferModal";
 import FeaturedOffer from "@/components/offers/FeaturedOffer";
 import UrgencyStrip from "@/components/offers/UrgencyStrip";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const HERO_WORDS = ["Exclusive", "Deals.", "Limited", "Time."];
 
@@ -213,7 +214,7 @@ export default function OffersPageClient({
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                <a href="tel:+919999999999" className="btn btn-secondary btn-lg flex items-center gap-2">
+                <a href={SITE_CONFIG.phoneHref} className="btn btn-secondary btn-lg flex items-center gap-2">
                   <Phone size={15} /> Book Site Visit
                 </a>
               </motion.div>

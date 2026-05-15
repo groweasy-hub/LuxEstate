@@ -7,7 +7,6 @@ import {
   Users,
   Clock,
   TrendingUp,
-  Shield,
   Star,
   ArrowRight,
   Phone,
@@ -16,46 +15,47 @@ import {
   Share2,
 } from "lucide-react";
 import { useInViewAnimation } from "@/hooks/useInViewAnimation";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 /* ── DATA ─────────────────────────────────────────────────── */
 
 const COUNTERS = [
   { icon: Award, value: 200, suffix: "+", label: "Projects Delivered" },
   { icon: TrendingUp, value: 50, suffix: "Cr+", label: "Deals Closed (₹)" },
-  { icon: Clock, value: 10, suffix: "+", label: "Years of Excellence" },
+  { icon: Clock, value: 2, suffix: "+", label: "Years of Excellence" },
   { icon: Users, value: 5000, suffix: "+", label: "Happy Families" },
 ];
 
 const TIMELINE = [
   {
-    year: "2014",
+    year: "2024",
     title: "Founded",
-    desc: "LuxEstate was born with a single mission — make luxury real estate accessible and transparent for every buyer.",
-  },
-  {
-    year: "2016",
-    title: "First 100 Deals",
-    desc: "Crossed 100 successful property transactions within 2 years, earning our first industry recognition.",
-  },
-  {
-    year: "2018",
-    title: "RERA Certified",
-    desc: "Became one of the first channel partners in Mumbai to achieve full RERA certification across all listings.",
-  },
-  {
-    year: "2020",
-    title: "Digital Expansion",
-    desc: "Launched our digital platform, enabling clients to discover, compare, and book properties entirely online.",
-  },
-  {
-    year: "2022",
-    title: "Award Winning",
-    desc: 'Recognised as "Best Luxury Channel Partner" at the National Real Estate Awards for 2 consecutive years.',
+    desc: `${SITE_CONFIG.brandName} launched with a simple mission - make property buying more transparent, responsive, and buyer-friendly.`,
   },
   {
     year: "2024",
-    title: "Pan-India Presence",
-    desc: "Expanded to 8 cities with 200+ premium projects and a team of 50+ dedicated property experts.",
+    title: "Early Momentum",
+    desc: "Built a strong referral-driven start by helping buyers shortlist, compare, and close deals with confidence.",
+  },
+  {
+    year: "2025",
+    title: "Trusted Network",
+    desc: "Expanded our developer network and advisory process to deliver faster site visits, sharper pricing insights, and better buyer support.",
+  },
+  {
+    year: "2025",
+    title: "Digital Growth",
+    desc: "Strengthened our digital platform so clients could explore projects, compare offers, and raise enquiries in minutes.",
+  },
+  {
+    year: "2026",
+    title: "Operational Scale",
+    desc: "Standardised follow-ups, consultations, and lead support across the team to make every buyer journey smoother.",
+  },
+  {
+    year: "2026",
+    title: "Growing Presence",
+    desc: `${SITE_CONFIG.brandName} continues to grow with curated projects, responsive support, and trusted local guidance.`,
   },
 ];
 
@@ -78,7 +78,7 @@ const TEAM = [
     name: "Rohan Kapoor",
     role: "Lead Property Advisor",
     img: "/images/Rohan-Kapoor.jpg",
-    bio: "Specialist in Bandra, Worli & Juhu micro-markets. Helped 500+ families find their perfect home.",
+    bio: "Specialist in Begumpet, Jubilee Hills and Gachibowli micro-markets. Helped hundreds of families find the right home.",
     socials: { linkedin: "#", instagram: "#" },
   },
   {
@@ -247,8 +247,8 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.55 }}
         >
-          A decade of trust, transparency, and transforming the way India buys
-          luxury real estate.
+          A modern approach to trust, transparency, and smarter real estate
+          decisions since {SITE_CONFIG.sinceYear}.
         </motion.p>
       </motion.div>
     </section>
@@ -443,11 +443,11 @@ function StorySection() {
             <div className="section-label">
               <span>Our Story</span>
             </div>
-            <h2>A Decade of Turning Aspirations Into Addresses</h2>
+            <h2>A Fresh Approach to Turning Aspirations Into Addresses</h2>
             <p className="lead">
-              LuxEstate was founded in 2014 with a simple belief — every family
-              deserves honest guidance when making the most important financial
-              decision of their lives.
+              {SITE_CONFIG.brandName} was founded in {SITE_CONFIG.sinceYear} with
+              a simple belief - every family deserves honest guidance when making
+              one of the most important financial decisions of their lives.
             </p>
             <p
               style={{
@@ -455,9 +455,9 @@ function StorySection() {
                 lineHeight: "var(--leading-relaxed)",
               }}
             >
-              We started as a two-person team in a small Bandra office. Today,
-              we're a 50-member strong team that has helped over 5,000 families
-              find their dream homes across Mumbai, Pune, and beyond.
+              We started as a focused advisory team in Begumpet. Today, we&apos;re
+              building a sharper, more responsive experience for buyers looking
+              for the right homes across Hyderabad and beyond.
             </p>
             <p
               style={{
@@ -501,7 +501,7 @@ function TimelineSection() {
           <div className="section-label" style={{ justifyContent: "center" }}>
             <span>Our Journey</span>
           </div>
-          <h2>A Decade of Milestones</h2>
+          <h2>Milestones Since 2024</h2>
         </div>
 
         <div
@@ -637,7 +637,7 @@ function TeamSection() {
           style={{ marginBottom: "var(--space-12)" }}
         >
           <div className="section-label" style={{ justifyContent: "center" }}>
-            <span>The People Behind LuxEstate</span>
+            <span>The People Behind {SITE_CONFIG.brandName}</span>
           </div>
           <h2>Meet Our Team</h2>
           <p className="lead mt-3 mx-auto" style={{ maxWidth: 480 }}>
@@ -783,14 +783,14 @@ function FinalCTA() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="section-label" style={{ justifyContent: "center" }}>
-            <span>Let's Connect</span>
+            <span>Let&apos;s Connect</span>
           </div>
           <h2 style={{ marginBottom: "var(--space-4)" }}>
-            Let's Help You Find Your{" "}
+            Let&apos;s Help You Find Your{" "}
             <em className="text-gradient-gold font-display">Dream Home</em>
           </h2>
           <p className="lead" style={{ marginBottom: "var(--space-10)" }}>
-            Whether you're a first-time buyer or a seasoned investor, our team
+            Whether you&apos;re a first-time buyer or a seasoned investor, our team
             is ready to guide you every step of the way.
           </p>
           <div className="flex-center gap-4 flex-wrap" data-about-final-buttons>
@@ -815,7 +815,7 @@ function FinalCTA() {
               }}
             >
               <a
-                href="tel:+919999999999"
+                href={SITE_CONFIG.phoneHref}
                 className="btn btn-secondary btn-lg flex items-center gap-2"
               >
                 <Phone size={15} /> Call Us Now
@@ -827,3 +827,8 @@ function FinalCTA() {
     </section>
   );
 }
+
+
+
+
+

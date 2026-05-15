@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Phone, ArrowRight, Sparkles } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export default function InlineCTA() {
   return (
@@ -88,7 +89,7 @@ export default function InlineCTA() {
           </Link>
         </motion.div>
         <a
-          href="tel:+919999999999"
+          href={SITE_CONFIG.phoneHref}
           className="btn btn-ghost btn-lg flex items-center gap-2"
         >
           <Phone size={15} /> Call Now

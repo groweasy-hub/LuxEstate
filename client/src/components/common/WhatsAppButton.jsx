@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
+import { buildWhatsAppUrl } from '@/lib/siteConfig';
 
 export default function WhatsAppButton() {
   const [wobble, setWobble] = useState(false);
@@ -16,7 +17,7 @@ export default function WhatsAppButton() {
 
   return (
     <motion.a
-      href="https://wa.me/919999999999?text=Hi%2C%20I%27m%20interested%20in%20a%20property"
+      href={buildWhatsAppUrl("Hi, I'm interested in a property.")}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

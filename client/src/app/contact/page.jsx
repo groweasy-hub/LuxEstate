@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInViewAnimation } from "@/hooks/useInViewAnimation";
 import { useLeadForm } from "@/hooks/useLeadForm";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { buildWhatsAppUrl, MAP_EMBED_URL, SITE_CONFIG } from "@/lib/siteConfig";
 
 // ── Floating label input ──────────────────────────────────────
 function FloatingField({
@@ -208,19 +209,19 @@ const contactItems = [
   {
     icon: Phone,
     label: "Call Us",
-    value: "+91 99999 99999",
-    href: "tel:+919999999999",
+    value: SITE_CONFIG.phoneDisplay,
+    href: SITE_CONFIG.phoneHref,
   },
   {
     icon: Mail,
     label: "Email Us",
-    value: "hello@luxestate.in",
-    href: "mailto:hello@luxestate.in",
+    value: SITE_CONFIG.email,
+    href: SITE_CONFIG.emailHref,
   },
   {
     icon: MapPin,
     label: "Visit Us",
-    value: "Bandra West, Mumbai 400050",
+    value: SITE_CONFIG.addressInline,
     href: "#map",
   },
   {
@@ -291,7 +292,7 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            Have a question or ready to find your dream home? We're here to
+            Have a question or ready to find your dream home? We&apos;re here to
             help.
           </motion.p>
         </div>
@@ -321,7 +322,7 @@ export default function ContactPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h2 className="mb-3">Let's Talk</h2>
+              <h2 className="mb-3">Let&apos;s Talk</h2>
               <p className="lead mb-10">
                 Reach out through any channel — we respond within hours.
               </p>
@@ -401,7 +402,7 @@ export default function ContactPage() {
 
             {/* WhatsApp CTA */}
             <motion.a
-              href="https://wa.me/919999999999"
+              href={buildWhatsAppUrl("Hi, I'm interested in PropertyPerks. Please assist me.")}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-lg w-full"
@@ -463,14 +464,14 @@ export default function ContactPage() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.0!2d72.8296!3d19.0596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAzJzM0LjYiTiA3MsKwNDknNDYuNiJF!5e0!3m2!1sen!2sin!4v1234567890"
+              src={MAP_EMBED_URL}
               width="100%"
               height="100%"
               style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="LuxEstate Office Location"
+              title={`${SITE_CONFIG.brandName} Office Location`}
             />
           </motion.div>
         </div>

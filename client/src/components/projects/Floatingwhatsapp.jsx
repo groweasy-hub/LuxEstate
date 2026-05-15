@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const WOBBLE = {
   rotate: [0, -12, 12, -10, 10, -6, 6, 0],
@@ -9,8 +10,8 @@ const WOBBLE = {
 };
 
 export default function FloatingWhatsApp({
-  phone = "919999999999",
-  message = "Hi, I'm interested in your properties. Can you help me?",
+  phone = SITE_CONFIG.phoneDigits,
+  message = "Hi, I'm interested in PropertyPerks. Can you help me?",
 }) {
   const [wobble, setWobble] = useState(false);
   const [tooltip, setTooltip] = useState(false);

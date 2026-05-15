@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Phone, Flame, Timer } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 // ─── Countdown hook ────────────────────────────────────────────────────────────
 function useCountdown(targetHours = 47) {
@@ -175,7 +176,7 @@ export default function UrgencyCTA({ unitsLeft = 7, project }) {
         }}
       >
         This offer expires soon. Book your complimentary site visit today and
-        secure the pre-launch price before it's too late.
+        secure the pre-launch price before it&apos;s too late.
       </p>
 
       {/* Countdown */}
@@ -255,7 +256,7 @@ export default function UrgencyCTA({ unitsLeft = 7, project }) {
           </Link>
         </motion.div>
         <a
-          href="tel:+919999999999"
+          href={SITE_CONFIG.phoneHref}
           className={`btn btn-secondary ${compact ? "" : "btn-lg"} flex items-center gap-2`}
         >
           <Phone size={15} /> Call Expert
